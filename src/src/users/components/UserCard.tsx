@@ -8,7 +8,7 @@ const UserCard: FunctionComponent = () => {
     return (
         <Box sx={{
             background: "linear-gradient(45deg, rgba(149,58,89,1) 41%, rgba(219,121,136,1) 100%)",
-            borderRadius: 15,
+            borderRadius: 2,
             minHeight: 430,
             boxShadow: '0px 13px 20px 0px rgb(0 0 0 / 10%)',
             display: 'flex',
@@ -26,7 +26,7 @@ const UserCard: FunctionComponent = () => {
                 />
             </Box>
             <Box sx={{
-                borderRadius: 10,
+                borderRadius: 2,
                 minHeight: "150px",
                 py: 6,
                 background: 'white',
