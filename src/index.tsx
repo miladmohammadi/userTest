@@ -9,13 +9,13 @@ import mainTheme from "./src/core/theme/theme";
 
 const theme = createTheme(mainTheme);
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <ThemeProvider theme={theme}>
+    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+    <CssBaseline />
+    <App />
+  </ThemeProvider>,
+  // </React.StrictMode>,
   document.getElementById("root"),
 );
 

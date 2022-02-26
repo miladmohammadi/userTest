@@ -3,6 +3,8 @@ import { useState } from "react";
 interface IUseGetUsersInitials {
   perPage: number;
   serviceAgent: Function;
+  initialFilters: any;
+  initialPage: number;
 }
 
 interface IDataWithMeta<S> {
@@ -45,7 +47,7 @@ interface IUserGetUsers {
   (props: IUseGetUsersInitials): IUserDataAndHandles<IUser>;
 }
 
-const useGetUsers: IUserGetUsers = ({ perPage, serviceAgent }) => {
+export const useGetUsers: IUserGetUsers = ({ perPage, serviceAgent, initialFilters, initialPage }) => {
   const [data, setData] = useState<IDataWithMeta<IUser> | undefined>();
   const [loaded, setLoaded] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);

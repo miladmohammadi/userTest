@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import PublicLayout from "../../core/components/PublicLayout";
+import { Link } from "react-router-dom";
 
 const Login: FunctionComponent = () => {
   return (
@@ -45,9 +46,11 @@ const Login: FunctionComponent = () => {
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
             {"Submit"}
           </Button>
-          <Button color="primary" fullWidth sx={{ mt: 2 }}>
-            {"Sign Up"}
-          </Button>
+          <Link to={"/signup"}>
+            <Button color="primary" fullWidth sx={{ mt: 2 }}>
+              {"Sign Up"}
+            </Button>
+          </Link>
         </Box>
       </Container>
     </PublicLayout>
