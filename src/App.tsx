@@ -1,22 +1,31 @@
-import React from 'react';
-import './App.css';
-import UserCard from "./src/users/components/UserCard";
-import {Container, Grid} from "@mui/material";
-import Login from "./src/auth/components/login";
-import SignUp from "./src/auth/components/SignUp";
+import React, { FunctionComponent } from "react";
+import "./App.css";
+import ROUTES, { RenderRoutes } from "./src/utils/Routes";
+import { BrowserRouter } from "react-router-dom";
+import { Container } from "@mui/material";
 
 function App() {
-    return (
-        <div className="App" style={{backgroundColor:'#f5f9ea',minHeight:'100vh'}}>
-            <Container maxWidth={'lg'}>
-                <Grid container spacing={2}>
-                    {[1, 2, 3, 4, 5,6,7,8].map((s) => <Grid item xs={3} lg={3} md={4} sm={12}><UserCard/></Grid>)}
-                </Grid>
-                <Login/>
-                <SignUp/>
-            </Container>
-        </div>
-    );
+  // const [state, setState] = useState("");
+  // useEffect(() => {
+  //   signToken({ userId: "100", userName: "milad" }).then((value) => {
+  //     setState(value.string);
+  //   });
+  // }, []);
+  //
+  // useEffect(() => {
+  //   if (state)
+  //     verifyToken(state).then((value) => {
+  //       console.log(value);
+  //     });
+  // }, [state]);
+
+  return (
+    <>
+      <BrowserRouter>
+        <RenderRoutes routes={ROUTES} />
+      </BrowserRouter>
+    </>
+  );
 }
 
 export default App;
