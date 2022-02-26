@@ -1,6 +1,6 @@
-import {FunctionComponent} from "react";
+import { FunctionComponent } from "react";
 
 const Menu: FunctionComponent = () => {
-    return (<div></div>)
-}
-export default Menu
+  return <div></div>;
+};
+export default Menu;
