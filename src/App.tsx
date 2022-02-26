@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FunctionComponent } from "react";
+import "./App.css";
+import ROUTES, { RenderRoutes } from "./src/utils/Routes";
+import { BrowserRouter } from "react-router-dom";
+import { Container } from "@mui/material";
 
 function App() {
+  // const [state, setState] = useState("");
+  // useEffect(() => {
+  //   signToken({ userId: "100", userName: "milad" }).then((value) => {
+  //     setState(value.string);
+  //   });
+  // }, []);
+  //
+  // useEffect(() => {
+  //   if (state)
+  //     verifyToken(state).then((value) => {
+  //       console.log(value);
+  //     });
+  // }, [state]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <RenderRoutes routes={ROUTES} />
+      </BrowserRouter>
+    </>
   );
 }
 
