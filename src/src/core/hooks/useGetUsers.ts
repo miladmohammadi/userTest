@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../../db";
-import { IRole, roles } from "./useUser";
+import { IRole } from "./useUser";
 
 interface IUseGetUsersInitials {
   perPage: number;

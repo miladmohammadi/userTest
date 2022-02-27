@@ -3,9 +3,6 @@ import { Avatar, Box, Typography } from "@mui/material";
 import { IUser } from "../../core/hooks/useGetUsers";
 
 const UserCard: FunctionComponent<{ userData: IUser }> = ({ userData }) => {
-  const description =
-    "Description Description Description Description Description Description Description\n" + "Description\n";
-
   return (
     <Box
       sx={{
@@ -57,7 +54,7 @@ const UserCard: FunctionComponent<{ userData: IUser }> = ({ userData }) => {
         >
           {userData.bio ?? "No Bio Yet"}
         </Typography>
-        {description.length > 100 && "..."}
+        {(userData?.bio?.length ?? 0) > 100 && "..."}
       </Box>
     </Box>
   );

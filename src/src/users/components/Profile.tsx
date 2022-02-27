@@ -1,9 +1,10 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import * as React from "react";
+import { FunctionComponent, useState } from "react";
 import PublicLayout from "../../core/components/PublicLayout";
 import { useParams } from "react-router-dom";
-import * as React from "react";
 import { Avatar, Box, Button, ButtonGroup, Container, Grid, TextField } from "@mui/material";
 import { useCurrentUser } from "../../core/hooks/reduxHooks";
+
 export interface IProfile {
   variant: "self" | "other";
 }

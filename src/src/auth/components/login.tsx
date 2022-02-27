@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import PublicLayout from "../../core/components/PublicLayout";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";

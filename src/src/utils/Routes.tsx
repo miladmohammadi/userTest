@@ -3,13 +3,9 @@ import * as React from "react";
 import { FunctionComponent, useEffect } from "react";
 import Login from "../auth/components/login";
 import SignUp from "../auth/components/SignUp";
-import { Button, Grid } from "@mui/material";
-import UserCard from "../users/components/UserCard";
-import PublicLayout from "../core/components/PublicLayout";
 import Profile from "../users/components/Profile";
 import { useCurrentUser } from "../core/hooks/reduxHooks";
 import AuthPagesLayout from "../core/components/AuthPagesLayout";
-import { Link } from "react-router-dom";
 import UserList from "../users/components/UserList";
 
 interface IErrorPage {
