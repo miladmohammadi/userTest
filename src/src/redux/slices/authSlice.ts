@@ -71,7 +71,7 @@ export const login =
           localStorage.setItem("userauth", x.data.token);
           localStorage.setItem("user", JSON.stringify(x.data.user));
           dispatch(setAuthSuccess(x.data));
-          history("/dashboard");
+          history("/");
           return;
         }
         dispatch(setAuthFailed("something went wrong"));

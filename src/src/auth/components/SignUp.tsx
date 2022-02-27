@@ -6,6 +6,8 @@ import * as yup from "yup";
 import { Link } from "react-router-dom";
 import { userUser } from "../../core/hooks/useUser";
 import { db } from "../../db";
+import AuthPagesLayout from "../../core/components/AuthPagesLayout";
+import { addDemoData } from "../../core/utils/demoData";
 
 const SignUp: FunctionComponent = () => {
   const user = userUser(db);
@@ -22,7 +24,7 @@ const SignUp: FunctionComponent = () => {
         .string()
         .min(8, "Password should be of minimum 8 characters length")
         .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
           "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
         )
         .required("Password is required"),
@@ -36,7 +38,7 @@ const SignUp: FunctionComponent = () => {
     },
   });
   return (
-    <PublicLayout>
+    <AuthPagesLayout>
       <Container
         sx={{
           maxWidth: "430px!important",
@@ -103,10 +105,18 @@ const SignUp: FunctionComponent = () => {
                 {"Login"}
               </Button>
             </Link>
+            <Button
+              fullWidth
+              onClick={() => {
+                addDemoData();
+              }}
+            >
+              {"Add Demo Data"}
+            </Button>
           </form>
         </Box>
       </Container>
-    </PublicLayout>
+    </AuthPagesLayout>
   );
 };
 export default SignUp;

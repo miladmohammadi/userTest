@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useLogin } from "../../core/hooks/reduxHooks";
+import AuthPagesLayout from "../../core/components/AuthPagesLayout";
 
 const Login: FunctionComponent = () => {
   const user = useLogin();
@@ -20,7 +21,7 @@ const Login: FunctionComponent = () => {
         .string()
         .min(8, "Password should be of minimum 8 characters length")
         .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
           "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
         )
         .required("Password is required"),
@@ -30,7 +31,7 @@ const Login: FunctionComponent = () => {
     },
   });
   return (
-    <PublicLayout>
+    <AuthPagesLayout>
       <Container
         sx={{
           maxWidth: "430px!important",
@@ -87,7 +88,7 @@ const Login: FunctionComponent = () => {
           </form>
         </Box>
       </Container>
-    </PublicLayout>
+    </AuthPagesLayout>
   );
 };
 export default Login;
