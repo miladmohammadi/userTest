@@ -30,17 +30,18 @@ interface IUserDataAndHandles<U> {
   setPage: (page: number) => void;
 }
 
-interface IUser {
-  id: string;
+export interface IUser {
+  id?: string;
   email: string;
   password: string;
-  name: string;
-  role: string;
+  name?: string;
+  role?: string;
   bio?: string;
   facebook?: string;
   instagram?: string;
   linkedin?: string;
   twitter?: string;
+  avatar?: string;
 }
 
 interface IUserGetUsers {
