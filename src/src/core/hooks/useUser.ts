@@ -21,7 +21,7 @@ export type IUserFormData = IUserLoginData & { role: IRole };
 
 export type IRole = "ADMIN" | "STAFF" | "MEMBER";
 
-const roles = {
+export const roles = {
   ADMIN: "ADMIN",
   STAFF: "STAFF",
   MEMBER: "MEMBER",
@@ -53,19 +53,3 @@ export const userUser: IUserActions = (serviceAgent = db) => {
 const userAddUser: IAddUser = () => {};
 const userDeleteUser: IDeleteUser = () => {};
 const useUpdateUser: IUpdateUser = () => {};
-// const users = useLiveQuery(
-//     async () => {
-//       //
-//       // Query Dexie's API
-//       //
-//       const user = await db.users
-//           .where("role")
-//           .anyOf([...role])
-//           .toArray();
-//
-//       // Return result
-//       return users;
-//     },
-//     // specify vars that affect query:
-//     [role, page],
-// );

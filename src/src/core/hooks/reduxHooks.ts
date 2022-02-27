@@ -1,7 +1,7 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "../../redux";
 import type { RootState } from "../../redux/rootReducer";
-import { login } from "../../redux/slices/authSlice";
+import { login, logOut } from "../../redux/slices/authSlice";
 import { IUser } from "./useGetUsers";
 import { useNavigate } from "react-router";
 
@@ -16,7 +16,14 @@ export const useLogin = () => {
   return { loginUser };
 };
 
+export const useLogout = () => {
+  const dispatch = useAppDispatch();
+  const history = useNavigate();
+  const logout = () => dispatch(logOut(history));
+  return { logout };
+};
+
 export const useCurrentUser = () => {
   const authState = useAppSelector((state) => state.authSlice);
-  return authState.currentUser;
+  return authState;
 };
