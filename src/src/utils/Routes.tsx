@@ -1,12 +1,12 @@
-import { RouteObject, useRoutes } from "react-router";
+import { RouteObject, useNavigate, useRoutes } from "react-router";
 import * as React from "react";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import Login from "../auth/components/login";
 import SignUp from "../auth/components/SignUp";
-import { useParams } from "react-router-dom";
-import { Grid } from "@mui/material";
-import UserCard from "../users/components/UserCard";
-import PublicLayout from "../core/components/PublicLayout";
+import Profile from "../users/components/Profile";
+import { useCurrentUser } from "../core/hooks/reduxHooks";
+import AuthPagesLayout from "../core/components/AuthPagesLayout";
+import UserList from "../users/components/UserList";
 
 interface IErrorPage {
   type: number;
@@ -17,31 +17,40 @@ interface IRoutesComponent {
 }
 
 const ErrorsPage: FunctionComponent<IErrorPage> = ({ type }) => {
-  return <PublicLayout>{type}: Happened</PublicLayout>;
+  return <AuthPagesLayout>{type}: Happened</AuthPagesLayout>;
 };
 
-const UserProfile: FunctionComponent = () => {
-  let params = useParams();
-  return <PublicLayout>{params.id}</PublicLayout>;
+const PrivateRoute: FunctionComponent = ({ children }) => {
+  const user = useCurrentUser();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user?.isAuth) {
+      navigate("/login");
+    }
+  });
+  if (!user?.isAuth) {
+    return null;
+  }
+  return <>{children}</>;
 };
-
-const UserList: FunctionComponent = () => {
-  return (
-    <PublicLayout>
-      <Grid container spacing={2}>
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
-          <Grid item xs={3} lg={3} md={4} sm={12}>
-            <UserCard />
-          </Grid>
-        ))}
-      </Grid>
-    </PublicLayout>
-  );
+const Dashboard: FunctionComponent = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/user/profile");
+  });
+  return <></>;
 };
 
 // routes Manager
 const ROUTES = [
-  { path: "/", element: <Login /> },
+  {
+    path: "/",
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+  },
   {
     path: "login",
     key: "LOGIN",
@@ -54,11 +63,44 @@ const ROUTES = [
     exact: true,
     element: <SignUp />,
   },
-  { path: "users", key: "USERS", element: <UserList />, exact: true },
+  {
+    path: "users",
+    key: "USERS",
+    element: (
+      <PrivateRoute>
+        <UserList />
+      </PrivateRoute>
+    ),
+    exact: true,
+  },
   {
     path: "users/:id",
     key: "USERS",
-    element: <UserProfile />,
+    element: (
+      <PrivateRoute>
+        <Profile variant={"other"} mode={"edit"} />
+      </PrivateRoute>
+    ),
+    exact: true,
+  },
+  {
+    path: "user/profile",
+    key: "PROFILE",
+    element: (
+      <PrivateRoute>
+        <Profile variant={"self"} mode={"edit"} />
+      </PrivateRoute>
+    ),
+    exact: true,
+  },
+  {
+    path: "user/add",
+    key: "USERADD",
+    element: (
+      <PrivateRoute>
+        <Profile variant={"self"} mode={"add"} />
+      </PrivateRoute>
+    ),
     exact: true,
   },
   { path: "*", element: <ErrorsPage type={404} /> },
