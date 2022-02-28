@@ -3,13 +3,13 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Link } from "react-router-dom";
-import { userUser } from "../../core/hooks/useUser";
+import { useUser } from "../../core/hooks/useUser";
 import { db } from "../../db";
 import AuthPagesLayout from "../../core/components/AuthPagesLayout";
 import { addDemoData } from "../../core/utils/demoData";
 
 const SignUp: FunctionComponent = () => {
-  const user = userUser(db);
+  const user = useUser(db);
   const formik = useFormik({
     initialValues: {
       email: "",

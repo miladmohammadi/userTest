@@ -1,5 +1,7 @@
 import { db } from "../../db";
 import { IUser } from "./useGetUsers";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface IAddUser {}
 
@@ -34,9 +36,18 @@ export const roles = {
   MEMBER: "MEMBER",
 };
 
-export const userUser: IUserActions = (serviceAgent = db) => {
+export const useUser: IUserActions = (serviceAgent = db) => {
+  const navigate = useNavigate();
   const add = (userFormData: IUserFormData) => {
-    serviceAgent.addUser({ ...userFormData, role: roles.MEMBER });
+    serviceAgent.addUser({ ...userFormData, role: roles.MEMBER }).then((response: any) => {
+      console.log(response);
+      if (response.success) {
+        toast.success("You Signed up successfully");
+        navigate("/login");
+      } else {
+        toast.error(response.data);
+      }
+    });
   };
 
   const login = (userLoginData: IUserLoginData) => {
@@ -50,13 +61,9 @@ export const userUser: IUserActions = (serviceAgent = db) => {
   const update = (userUpdate: IUser) => {
     serviceAgent.updateUser(userUpdate);
   };
-  const DeleteUser = (userEmail: string) => {};
+  const deleteUser = (userEmail: string) => {};
   return {
     add,
-    login,
+    deleteUser,
   };
 };
-
-const userAddUser: IAddUser = () => {};
-const userDeleteUser: IDeleteUser = () => {};
-const useUpdateUser: IUpdateUser = () => {};

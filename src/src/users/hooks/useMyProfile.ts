@@ -31,7 +31,7 @@ const useMyProfile = (variant: string) => {
         });
       }
     }
-  }, []);
+  }, [params.id]);
   return { success, profileData };
 };
 export default useMyProfile;

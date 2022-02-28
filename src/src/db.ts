@@ -24,12 +24,13 @@ export class MySubClassedDexie extends Dexie {
   }
 
   addUser(user: IUserFormData) {
-    this.users
-      .add({ ...user, id: uuidv4() })
+    const id = uuidv4();
+    return this.users
+      .add({ ...user, id: id })
       .then(() => {
         return Promise.resolve({
           success: true,
-          data: "User Added Successfully",
+          data: id,
         });
       })
       .catch((error) => {
@@ -40,7 +41,7 @@ export class MySubClassedDexie extends Dexie {
           });
         } else {
           return Promise.resolve({
-            success: true,
+            success: false,
             data: "An Unexpected Error Happened",
           });
         }
@@ -48,19 +49,28 @@ export class MySubClassedDexie extends Dexie {
   }
 
   updateUser(updatedUser: IUser) {
-    return this.users.update(updatedUser.email, updatedUser).then((updated) => {
-      if (updated) {
-        return Promise.resolve({
-          success: true,
-          data: `${updatedUser.email} successfully updated`,
-        });
-      } else {
+    return this.users
+      .update(updatedUser.email, updatedUser)
+      .then((updated) => {
+        if (updated) {
+          return Promise.resolve({
+            success: true,
+            data: `${updatedUser.email} successfully updated`,
+          });
+        } else {
+          return Promise.resolve({
+            success: false,
+            data: `Nothing was updated - there were no user with this Email: ${updatedUser.email}`,
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
         return Promise.resolve({
           success: false,
           data: `Nothing was updated - there were no user with this Email: ${updatedUser.email}`,
         });
-      }
-    });
+      });
   }
 
   login(user: IUserLoginData) {
