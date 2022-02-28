@@ -12,8 +12,6 @@ export interface User {
 }
 
 export class MySubClassedDexie extends Dexie {
-  // 'friends' is added by dexie when declaring the stores()
-  // We just tell the typing system this is the case
   users!: Table<IUser>;
 
   constructor() {
@@ -177,12 +175,8 @@ export class MySubClassedDexie extends Dexie {
         });
       });
   }
+
+  deleteUser(email: string) {}
 }
 
 export const db = new MySubClassedDexie();
-const simpleError = () => {
-  return Promise.resolve({
-    success: false,
-    data: "401 UN-Authorized!",
-  });
-};

@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
+import { Dispatch, FunctionComponent, SetStateAction } from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -19,68 +20,50 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
+const Roles = ["ADMIN", "STAFF", "MEMBER"];
 
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
+function getStyles(role: string, Roles: readonly string[], theme: Theme) {
   return {
-    fontWeight:
-      personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
+    fontWeight: Roles.indexOf(role) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
   };
 }
 
-export default function MultiSelect() {
+const MultiSelect: FunctionComponent<{ ro: string[]; setRo: Dispatch<SetStateAction<string[]>> }> = ({ ro, setRo }) => {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
-
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChange = (event: SelectChangeEvent<typeof ro>) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value,
-    );
+    setRo(typeof value === "string" ? value.split(",") : value);
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Roles</InputLabel>
-        <Select
-          variant={"filled"}
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-          multiple
-          value={personName}
-          onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} size={"small"} label={value} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          {names.map((name) => (
-            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+    <FormControl fullWidth>
+      <InputLabel id="demo-multiple-chip-label">Roles</InputLabel>
+      <Select
+        variant={"filled"}
+        labelId="demo-multiple-chip-label"
+        id="demo-multiple-chip"
+        multiple
+        value={ro}
+        onChange={handleChange}
+        input={<OutlinedInput id="select-multiple-chip" label="Chip" fullWidth />}
+        renderValue={(selected) => (
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            {selected.map((value) => (
+              <Chip key={value} size={"small"} label={value} />
+            ))}
+          </Box>
+        )}
+        MenuProps={MenuProps}
+      >
+        {Roles.map((role) => (
+          <MenuItem key={role} value={role} style={getStyles(role, ro, theme)}>
+            {role}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
-}
+};
+export default MultiSelect;
