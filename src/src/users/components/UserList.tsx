@@ -13,7 +13,6 @@ const UserList: FunctionComponent = () => {
     initialFilters: null,
     initialPage: 1,
   });
-  console.log(users);
   return (
     <PublicLayout maxWidth={"lg"}>
       <Grid container sx={{ mb: 1, display: "flex", flexDirection: "row-reverse" }}>

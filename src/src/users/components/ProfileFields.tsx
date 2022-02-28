@@ -82,7 +82,7 @@ const ProfileFields: FunctionComponent<IProfile & { profileData?: IUser | null }
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={3}>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <Avatar
             variant={"rounded"}
             sx={{
@@ -95,7 +95,7 @@ const ProfileFields: FunctionComponent<IProfile & { profileData?: IUser | null }
             src={formik.values.avatar ?? profileData?.avatar}
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={8}>
           {fields.map((field) => (
             <TextField
               key={field}

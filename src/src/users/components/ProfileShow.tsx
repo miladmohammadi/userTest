@@ -18,7 +18,7 @@ const ProfileShow: FunctionComponent<{ profileData?: IUser | null }> = ({ profil
   return (
     <Card elevation={0} sx={{ px: 2, my: 2 }}>
       <Grid container spacing={3}>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <Avatar
             variant={"rounded"}
             sx={{
@@ -31,10 +31,15 @@ const ProfileShow: FunctionComponent<{ profileData?: IUser | null }> = ({ profil
             src={profileData?.avatar}
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={8}>
           <Grid container spacing={2} sx={{ py: 2 }}>
             {fields.map((text) => (
-              <Grid key={text.key} item xs={text.xs}>
+              <Grid
+                key={text.key}
+                item
+                xs={text.icon ? 6 : 12}
+                md={text.icon || text.key === "role" ? 3 : text.key === "bio" ? 9 : 6}
+              >
                 <Box
                   sx={{
                     backgroundColor: "#33333309",
@@ -53,7 +58,9 @@ const ProfileShow: FunctionComponent<{ profileData?: IUser | null }> = ({ profil
                         py: 3,
                       }}
                     >
-                      {text.icon}
+                      <a target={"_blank"} href={profileData?.[text.key as keyof typeof profileData]}>
+                        {text.icon}
+                      </a>
                     </Box>
                   ) : (
                     <>
