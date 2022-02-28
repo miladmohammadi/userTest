@@ -1,7 +1,7 @@
 import Dexie, { Table } from "dexie";
 import { IRole, IUserFormData, IUserLoginData } from "./core/hooks/useUser";
 import { v4 as uuidv4 } from "uuid";
-import { signToken } from "./jwt";
+import { signToken, verifyToken } from "./jwt";
 import { IUser } from "./core/hooks/useGetUsers";
 
 export interface User {
@@ -108,6 +108,71 @@ export class MySubClassedDexie extends Dexie {
         });
       });
   }
+
+  getProfileData(jwtToken: string, userId: string) {
+    return verifyToken(jwtToken)
+      .then((value) => {
+        return this.users
+          .get({ id: userId })
+          .then((user) => {
+            if (user && user.hasOwnProperty("password")) {
+              const { password, ...safe } = user;
+              return Promise.resolve({
+                success: true,
+                data: safe,
+              });
+            }
+          })
+          .catch((e) => {
+            return Promise.resolve({
+              success: false,
+              data: "401 UN-Authorized!",
+            });
+          });
+      })
+      .catch((e) => {
+        return Promise.resolve({
+          success: false,
+          data: "401 UN-Authorized!",
+        });
+      });
+  }
+
+  getMyProfileData(jwtToken: string) {
+    return verifyToken(jwtToken)
+      .then((value) => {
+        console.log(value.claims.id);
+        return this.users
+          .get({ id: value.claims.id })
+          .then((user) => {
+            if (user && user.hasOwnProperty("password")) {
+              const { password, ...safe } = user;
+              return Promise.resolve({
+                success: true,
+                data: safe,
+              });
+            }
+          })
+          .catch((e) => {
+            return Promise.resolve({
+              success: false,
+              data: "401 UN-Authorized!",
+            });
+          });
+      })
+      .catch((e) => {
+        return Promise.resolve({
+          success: false,
+          data: "401 UN-Authorized!",
+        });
+      });
+  }
 }
 
 export const db = new MySubClassedDexie();
+const simpleError = () => {
+  return Promise.resolve({
+    success: false,
+    data: "401 UN-Authorized!",
+  });
+};

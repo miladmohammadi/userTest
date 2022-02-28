@@ -14,6 +14,14 @@ interface IUserActions {
 export interface IUserLoginData {
   email: string;
   password: string;
+  id?: string;
+  name?: string;
+  bio?: string;
+  facebook?: string;
+  instagram?: string;
+  linkedin?: string;
+  twitter?: string;
+  avatar?: string;
 }
 
 export type IUserFormData = IUserLoginData & { role: IRole };

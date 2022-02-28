@@ -78,7 +78,7 @@ const ROUTES = [
     key: "USERS",
     element: (
       <PrivateRoute>
-        <Profile variant={"other"} />
+        <Profile variant={"other"} mode={"edit"} />
       </PrivateRoute>
     ),
     exact: true,
@@ -88,7 +88,7 @@ const ROUTES = [
     key: "PROFILE",
     element: (
       <PrivateRoute>
-        <Profile variant={"self"} />
+        <Profile variant={"self"} mode={"edit"} />
       </PrivateRoute>
     ),
     exact: true,
@@ -98,7 +98,7 @@ const ROUTES = [
     key: "USERADD",
     element: (
       <PrivateRoute>
-        <Profile variant={"self"} />
+        <Profile variant={"self"} mode={"add"} />
       </PrivateRoute>
     ),
     exact: true,
