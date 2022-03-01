@@ -1,13 +1,13 @@
 import React from "react";
 import "./App.css";
 import ROUTES, { RenderRoutes } from "./src/routes/Routes";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <RenderRoutes routes={ROUTES} />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
