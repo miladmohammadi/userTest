@@ -45,6 +45,7 @@ const Menu: FunctionComponent<Props> = (props) => {
               onClick={() => {
                 user.logout();
               }}
+              sx={{ mr: 1 }}
             >
               <LogoutIcon />
             </IconButton>
