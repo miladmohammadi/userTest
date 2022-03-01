@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useLogin } from "../../core/hooks/reduxHooks";
 import AuthPagesLayout from "../../core/components/AuthPagesLayout";
+import { addDemoData } from "../../core/utils/demoData";
 
 const Login: FunctionComponent = () => {
   const user = useLogin();
@@ -42,6 +43,9 @@ const Login: FunctionComponent = () => {
           flexDirection: "column",
         }}
       >
+        <Typography variant={"caption"}>
+          First Add Demo Data then login with demo account (or sign up) user: milad@gmail.com - pass: Milad123
+        </Typography>
         <Typography component="h1" variant="h5">
           Login
         </Typography>
@@ -84,6 +88,14 @@ const Login: FunctionComponent = () => {
                 {"Sign Up"}
               </Button>
             </Link>
+            <Button
+              fullWidth
+              onClick={() => {
+                addDemoData();
+              }}
+            >
+              {"Add Demo Data"}
+            </Button>
           </form>
         </Box>
       </Container>

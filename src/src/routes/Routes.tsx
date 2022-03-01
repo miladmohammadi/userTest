@@ -1,45 +1,20 @@
-import { RouteObject, useNavigate, useRoutes } from "react-router";
+import { RouteObject, useRoutes } from "react-router";
 import * as React from "react";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent } from "react";
 import Login from "../auth/components/login";
 import SignUp from "../auth/components/SignUp";
-import Profile from "../users/components/Profile";
-import { useCurrentUser } from "../core/hooks/reduxHooks";
-import AuthPagesLayout from "../core/components/AuthPagesLayout";
 import UserList from "../users/components/UserList";
-
-interface IErrorPage {
-  type: number;
-}
+import ShowUser from "../users/pages/ShowUser";
+import AddUser from "../users/pages/AddUser";
+import EditUser from "../users/pages/EditUser";
+import Profile from "../users/pages/Profile";
+import ErrorsPage from "../core/pages/ErrorPage";
+import PrivateRoute from "../core/components/PrivateRoute";
+import Dashboard from "../core/pages/Dashboard";
 
 interface IRoutesComponent {
   routes: RouteObject[];
 }
-
-const ErrorsPage: FunctionComponent<IErrorPage> = ({ type }) => {
-  return <AuthPagesLayout>{type}: Happened</AuthPagesLayout>;
-};
-
-const PrivateRoute: FunctionComponent = ({ children }) => {
-  const user = useCurrentUser();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!user?.isAuth) {
-      navigate("/login");
-    }
-  });
-  if (!user?.isAuth) {
-    return null;
-  }
-  return <>{children}</>;
-};
-const Dashboard: FunctionComponent = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    navigate("/user/profile");
-  });
-  return <></>;
-};
 
 // routes Manager
 const ROUTES = [
@@ -74,21 +49,11 @@ const ROUTES = [
     exact: true,
   },
   {
-    path: "users/:id",
+    path: "user/:id",
     key: "USERS",
     element: (
       <PrivateRoute>
-        <Profile variant={"other"} mode={"edit"} />
-      </PrivateRoute>
-    ),
-    exact: true,
-  },
-  {
-    path: "user/profile",
-    key: "PROFILE",
-    element: (
-      <PrivateRoute>
-        <Profile variant={"self"} mode={"edit"} />
+        <ShowUser />
       </PrivateRoute>
     ),
     exact: true,
@@ -98,7 +63,27 @@ const ROUTES = [
     key: "USERADD",
     element: (
       <PrivateRoute>
-        <Profile variant={"self"} mode={"add"} />
+        <AddUser />
+      </PrivateRoute>
+    ),
+    exact: true,
+  },
+  {
+    path: "user/edit/:id",
+    key: "USEREDIT",
+    element: (
+      <PrivateRoute>
+        <EditUser />
+      </PrivateRoute>
+    ),
+    exact: true,
+  },
+  {
+    path: "user/profile",
+    key: "PROFILE",
+    element: (
+      <PrivateRoute>
+        <Profile />
       </PrivateRoute>
     ),
     exact: true,

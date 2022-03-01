@@ -1,4 +1,5 @@
 import { db } from "../../db";
+import { toast } from "react-toastify";
 
 const users = [
   {
@@ -520,10 +521,10 @@ const users = [
   },
   {
     id: "699d7244-b0d2-4dfb-9f4e-ab35d75af136",
-    name: "Liesa Campa",
-    password: "PzcOwoNbhD",
-    email: "lcampa1d@tinyurl.com",
-    role: "MEMBER",
+    name: "Milad Mohamadi",
+    password: "Milad123",
+    email: "milad@gmail.com",
+    role: "ADMIN",
     bio: "utilize enterprise channels",
     avatar: "https://robohash.org/molestiasutiusto.png?size=110x110&set=set1",
   },
@@ -532,16 +533,13 @@ export const addDemoData = () => {
   db.users
     .bulkAdd(users)
     .then(function (lastKey) {
-      console.log("Done adding 100,000 raindrops all over the place");
-      console.log("Last raindrop's id was: " + lastKey); // Will be 100000.
+      toast.success("Done adding 50 Users Added");
+      console.log("Last User's id was: " + lastKey);
     })
     .catch(function (e) {
-      // Explicitely catching the bulkAdd() operation makes those successful
-      // additions commit despite that there were errors.
+      toast("Some Users did not succeed. However, " + (50 - e.failures.length) + " Users was added successfully");
       console.error(
-        "Some raindrops did not succeed. However, " +
-          (100000 - e.failures.length) +
-          " raindrops was added successfully",
+        "Some Users did not succeed. However, " + (50 - e.failures.length) + " Users was added successfully",
       );
     });
 };

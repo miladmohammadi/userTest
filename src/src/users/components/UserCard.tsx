@@ -26,7 +26,13 @@ const UserCard: FunctionComponent<{ userData: IUser }> = ({ userData }) => {
         <Avatar
           alt={userData.name ?? "No Name Yet"}
           src={userData.avatar}
-          sx={{ width: 110, height: 110, boxShadow: "0px 3px 8px 3px rgb(0 0 0 / 25%)" }}
+          sx={{
+            width: 110,
+            height: 110,
+            boxShadow: "0px 3px 5px 1px rgb(0 0 0 / 25%)",
+            border: "1px solid #33333314",
+            background: "#33333350",
+          }}
         />
       </Box>
       <Box
