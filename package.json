@@ -1,7 +1,7 @@
 {
-  "name": "userstest",
+  "name": "userTest",
   "version": "0.1.0",
-  "homepage": "http://miladmohammadi.github.io/userTest",
+  "homepage": "https://miladmohammadi.github.io/userTest",
   "private": true,
   "dependencies": {
     "@astronautlabs/jwt": "^1.0.1",
