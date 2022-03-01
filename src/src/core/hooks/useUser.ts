@@ -50,20 +50,7 @@ export const useUser: IUserActions = (serviceAgent = db) => {
     });
   };
 
-  const login = (userLoginData: IUserLoginData) => {
-    serviceAgent.login(userLoginData).then((response: any) => {
-      if (response.success) {
-        //setLoginState(response.data);
-      }
-    });
-  };
-
-  const update = (userUpdate: IUser) => {
-    serviceAgent.updateUser(userUpdate);
-  };
-  const deleteUser = (userEmail: string) => {};
   return {
     add,
-    deleteUser,
   };
 };
