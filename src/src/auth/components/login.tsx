@@ -1,33 +1,26 @@
 import { FunctionComponent } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useFormik } from "formik";
-import * as yup from "yup";
 import { useLogin } from "../../core/hooks/reduxHooks";
 import AuthPagesLayout from "../../core/components/AuthPagesLayout";
 import { addDemoData } from "../../core/utils/demoData";
+import useFormControl from "../../core/hooks/FormControl/useFormControl";
+import { IUser } from "../../core/hooks/useGetUsers";
+import { emailValidator, passwordValidator } from "../../core/hooks/FormControl/validationFunctions";
 
 const Login: FunctionComponent = () => {
   const user = useLogin();
-  const formik = useFormik({
+  const formik = useFormControl({
     initialValues: {
       email: "",
       password: "",
     },
-    validateOnChange: true,
-    validationSchema: yup.object({
-      email: yup.string().email("Enter a valid email").required("Email is required"),
-      password: yup
-        .string()
-        .min(8, "Password should be of minimum 8 characters length")
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-          "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
-        )
-        .required("Password is required"),
-    }),
+    validationSchema: {
+      email: emailValidator,
+      password: passwordValidator,
+    },
     onSubmit: (values) => {
-      user.loginUser(values);
+      user.loginUser(values as IUser);
     },
   });
   return (

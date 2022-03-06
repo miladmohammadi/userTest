@@ -1,14 +1,19 @@
 import { FunctionComponent } from "react";
 import { IUser } from "../../core/hooks/useGetUsers";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
-import * as yup from "yup";
 import { db } from "../../db";
 import { toast } from "react-toastify";
-import { IRole } from "../../core/hooks/useUser";
+import { IRole, IUserFormData } from "../../core/hooks/useUser";
 import { Avatar, Box, Button, Grid, TextField } from "@mui/material";
 import * as React from "react";
 import { IProfile } from "../pages/Profile";
+import {
+  emailValidator,
+  passwordValidator,
+  simpleRequiredValidator,
+  composeNameValidator,
+} from "../../core/hooks/FormControl/validationFunctions";
+import useFormControl from "../../core/hooks/FormControl/useFormControl";
 
 const ProfileFields: FunctionComponent<IProfile & { profileData?: IUser | null }> = ({
   variant,
@@ -20,7 +25,7 @@ const ProfileFields: FunctionComponent<IProfile & { profileData?: IUser | null }
     fields.push("password");
   }
   const navigate = useNavigate();
-  const formik = useFormik({
+  const formik = useFormControl({
     initialValues: {
       email: "",
       name: "",
@@ -34,31 +39,23 @@ const ProfileFields: FunctionComponent<IProfile & { profileData?: IUser | null }
       ...(mode === "add" && { password: "" }),
       ...(mode !== "add" && { ...profileData }),
     },
-    validationSchema: yup.object({
-      email: yup.string().required("email is required"),
-      name: yup.string().required("name is required"),
-      role: yup.string().required("role is required"),
-      bio: yup.string().required("bio is required"),
-      facebook: yup.string().required("facebook is required"),
-      instagram: yup.string().required("instagram is required"),
-      linkedin: yup.string().required("linkedin is required"),
-      twitter: yup.string().required("twitter is required"),
-      avatar: yup.string().required("avatar is required"),
+    validationSchema: {
+      email: emailValidator,
+      name: composeNameValidator("Name", simpleRequiredValidator),
+      role: composeNameValidator("Role", simpleRequiredValidator),
+      bio: composeNameValidator("Bio", simpleRequiredValidator),
+      facebook: composeNameValidator("Facebook", simpleRequiredValidator),
+      instagram: composeNameValidator("Instagram", simpleRequiredValidator),
+      linkedin: composeNameValidator("Linkedin", simpleRequiredValidator),
+      twitter: composeNameValidator("Twitter", simpleRequiredValidator),
+      avatar: composeNameValidator("Avatar", simpleRequiredValidator),
       ...(mode === "add" && {
-        password: yup
-          .string()
-          .min(8, "Password should be of minimum 8 characters length")
-          .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
-          )
-          .required("Password is required"),
+        password: passwordValidator,
       }),
-    }),
-    validateOnChange: true,
+    },
     onSubmit: (values) => {
       if (mode !== "add" && profileData) {
-        db.updateUser({ ...values, id: profileData.id }).then((response) => {
+        db.updateUser({ ...values, id: profileData.id } as IUser).then((response) => {
           if (response.success) {
             toast.success(response.data);
             navigate("/user/" + profileData.id);
@@ -67,17 +64,18 @@ const ProfileFields: FunctionComponent<IProfile & { profileData?: IUser | null }
           }
         });
       } else if (mode === "add" && values.password) {
-        db.addUser({ ...values, password: values.password, role: values.role as IRole }).then((response) => {
-          if (response.success) {
-            toast.success("Successfully added!");
-            navigate("/user/" + response.data);
-          } else {
-            toast.error(response.data);
-          }
-        });
+        db.addUser({ ...values, password: values.password, role: values.role as IRole } as IUserFormData).then(
+          (response) => {
+            if (response.success) {
+              toast.success("Successfully added!");
+              navigate("/user/" + response.data);
+            } else {
+              toast.error(response.data);
+            }
+          },
+        );
       }
     },
-    enableReinitialize: true,
   });
   return (
     <form onSubmit={formik.handleSubmit}>

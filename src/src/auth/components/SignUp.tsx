@@ -1,37 +1,26 @@
 import { FunctionComponent } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import * as yup from "yup";
 import { Link } from "react-router-dom";
 import { useUser } from "../../core/hooks/useUser";
 import { db } from "../../db";
 import AuthPagesLayout from "../../core/components/AuthPagesLayout";
 import { addDemoData } from "../../core/utils/demoData";
+import useFormControl from "../../core/hooks/FormControl/useFormControl";
+import { emailValidator, passwordValidator } from "../../core/hooks/FormControl/validationFunctions";
 
 const SignUp: FunctionComponent = () => {
   const user = useUser(db);
-  const formik = useFormik({
+  const formik = useFormControl({
     initialValues: {
       email: "",
       password: "",
       confirm_password: "",
     },
-    validateOnChange: true,
-    validationSchema: yup.object({
-      email: yup.string().email("Enter a valid email").required("Email is required"),
-      password: yup
-        .string()
-        .min(8, "Password should be of minimum 8 characters length")
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-          "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
-        )
-        .required("Password is required"),
-      confirm_password: yup
-        .string()
-        .oneOf([yup.ref("password")], "Passwords does not match")
-        .required("Password is required"),
-    }),
+    validationSchema: {
+      email: emailValidator,
+      password: passwordValidator,
+      confirm_password: passwordValidator,
+    },
     onSubmit: (values) => {
       user.add(values);
     },
