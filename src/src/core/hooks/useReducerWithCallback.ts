@@ -1,5 +1,4 @@
 import React from "react";
-
 /**
  * Defines the custom dispatch function that wraps the dispatch returned from useReducer.
  */
@@ -18,10 +17,11 @@ type DispatchCallback<S> = (state: S) => void;
 export function useReducerWithCallback<R extends React.Reducer<any, any>, I>(
   reducer: R,
   initialState: I & React.ReducerState<R>,
+  initializer: (arg: I & React.ReducerState<R>) => React.ReducerState<R>,
 ) {
   const callbackRef = React.useRef<DispatchCallback<React.ReducerState<R>>>();
 
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [state, dispatch] = React.useReducer(reducer, initialState, initializer);
 
   React.useEffect(() => {
     callbackRef.current?.(state);

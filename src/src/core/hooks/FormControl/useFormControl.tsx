@@ -1,4 +1,5 @@
 import { useReducerWithCallback } from "../useReducerWithCallback";
+import { useEffect, useRef } from "react";
 
 interface IFormControlInitials {
   initialValues: Values;
@@ -37,6 +38,9 @@ interface Errors {
 type Reducer<S, A> = (prevState: S, action: A) => S;
 type Action = any;
 const reducer: Reducer<any, Action> = (state, action) => {
+  if (action.type === "RESET") {
+    return setInitialState(action.payload);
+  }
   if (action.type === "CHANGE") {
     return {
       ...state,
@@ -82,13 +86,17 @@ const validateAll = (values: Values, validationSchema: IValidationFunctions) => 
 const allValid = (errors: Errors) => {
   return Object.values(errors).every((e) => e === null);
 };
+const setInitialState = (initialValues: Values) => {
+  return {
+    values: initialValues,
+    touched: {},
+    errors: {},
+  };
+};
 
 const useFormControl: IFormControl = ({ initialValues, validationSchema, onSubmit }) => {
-  const [{ values, errors, touched }, dispatch] = useReducerWithCallback(reducer, {
-    values: initialValues,
-    errors: {},
-    touched: {},
-  });
+  const initialValuesRef = useRef(initialValues);
+  const [{ values, errors, touched }, dispatch] = useReducerWithCallback(reducer, initialValues, setInitialState);
   const handleChange = (event: any) => {
     const { name, value } = event.target;
     dispatch({ type: "CHANGE", field: name, value, validationSchema: validationSchema[name] });
@@ -101,6 +109,13 @@ const useFormControl: IFormControl = ({ initialValues, validationSchema, onSubmi
       }
     });
   };
+
+  useEffect(() => {
+    if (JSON.stringify(initialValuesRef.current) !== JSON.stringify(initialValues)) {
+      dispatch({ type: "RESET", payload: initialValues });
+      initialValuesRef.current = initialValues;
+    }
+  }, [initialValues]);
 
   return {
     handleSubmit,
